@@ -16,3 +16,44 @@
         <time datetime="2024-12-15">December 15, 2024</time>
     </hgroup>
 </header>
+
+<h2>Welcome</h2>
+<p>This is my first blog post! I hope you enjoy reading it!</p>
+</p>
+
+<h2>Introduction</h2>
+<p>My family used a Chaimberlain garage door opener, which is a ubiquitous brand in the United States. But, one day, the button that controlled the garage door opener broke.</p>
+<p>The batteries were not dead, and replacements did not fix the issue. So, we decided to look for a smart garage door opener. We found that the myQ Smart Garage Opener was the most popular option, and was fairly cheap. We figured that it would have cost the same to replace the button as it would to buy the myQ device, so we bought it.</p>
+</p>
+
+<h3>The Issues</h3>
+<p>We quickly discovered that the myQ opener was not worth the investment. The application was slow, notifications were delayed, and the user interface was not intuitive. Additionally, we were frequently logged out of the app for no apparent reason. Furthermore, there was no ability to set up automations or integrate with other apps.</p>
+<p>The only fix to many of the problems was to to shell out more money for the more premium myQ "Smart Hub." So, I decided to take it into my own hands and create a solution that would allow me to control the garage door opener without paying for the Smart Hub.</p>
+
+<h2>Operation Garagebot</h3>
+<p>I came up with a simple idea: Deploy a server that would send requests to the myQ API, pretending to be from the app itself, to open and close the garage door. Then, use the Shortcuts app on my iPhone to talk to the server to open and close the garage door.</p>
+<p>I spent a few hours reverse-engineering the myQ app to understand how it communicated with the myQ servers to no avail because they to great lengths hide the underling APIs. I did some Googling and found that fortunately, the heavy lifting was already done by someone else! There is an unofficial Node.js library that wraps the myQ API.</p>
+<p>I quickly translated the solution into code:</p>
+<pre><code>
+const { myQApi } = require('@hjdhjd/myq')
+const myQ = new myQApi()
+await myQ.login('username', 'password')
+await myQ.refreshDevices()
+const garage = devices.find(
+    device => device.deviceType === 'garagedooropener')
+
+// command is either 'open' or 'close'
+async function operate(command) {
+    await myQ.execute(garage, command)
+}
+</code></pre>
+
+<p>As for the hosting, I picked Vercel, because of its free serverless functions. I just wrote a thin wrapper around the function to authenticate and handle requests to open and close the garage door.</p>
+<p>My solution, which I named Garagebot, was a success! With a simple Shortcut, I could skip the myQ app entirely and just ask Siri to operate the garage! My parents used it frequently, and even set up automations to automatically open the garage and start directions for their commute with one tap.</p>
+
+<h2>The End</h2>
+<p>Garagebot was a fun project that saved us a lot of money and time. But, all good things must come to an end. Recently, Chamberlain, the company behind myQ, updated their API to prevent unauthorized access from "robots". I could pay for the Smart Hub but we'll have to see if I can evade it for free.</p>
+<p>Until next time,<br>Neil
+
+</p>
+</p>
