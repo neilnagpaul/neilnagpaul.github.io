@@ -1,0 +1,44 @@
+:root {
+    margin: auto;
+    max-width: 768px;
+    font: 1rem/1.5 Helvetica;
+    color-scheme: light dark;
+}
+
+figure {
+    display: grid;
+    place-items: safe center;
+    overflow: auto;
+    margin: 1em 0;
+}
+
+pre {
+    width: 100%;
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+}
+
+:not(figure)>table {
+    min-width: 100%;
+}
+
+table {
+    border-collapse: collapse;
+}
+
+td,
+th {
+    border: 0.1em solid;
+    padding: 0.5em;
+}
+
+code {
+    color: color-mix(in hsl, currentcolor, violet 50%);
+}
+
+:any-link {
+    color: color-mix(in hsl, currentcolor, mediumblue 50%);
+}
